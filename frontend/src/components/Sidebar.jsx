@@ -8,7 +8,7 @@ import {
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard' },
-  { icon: Search, label: 'AI Search', id: 'ai-search' }, // Sekarang di posisi kedua
+  { icon: Search, label: 'AI Search', id: 'ai-search' },
   { icon: Users, label: 'Candidates', id: 'candidates' },
   { icon: Archive, label: 'Archive', id: 'archive' }
 ];
@@ -25,7 +25,7 @@ export default function Sidebar({ activeMenu, onMenuChange }) {
           </div>
           <div>
             <h1 className="font-serif text-lg font-semibold text-neutral-900 leading-tight tracking-tight">
-              Candidates
+              Talent AI
             </h1>
           </div>
         </div>
@@ -33,9 +33,6 @@ export default function Sidebar({ activeMenu, onMenuChange }) {
 
       {/* Primary Navigation */}
       <nav className="flex-1 px-3 py-4 overflow-y-auto">
-        <p className="px-3 mb-2 text-[10px] font-semibold text-neutral-400 uppercase tracking-[0.12em]">
-          Menu
-        </p>
         <ul className="space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;

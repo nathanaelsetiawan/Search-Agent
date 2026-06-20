@@ -1,6 +1,6 @@
-import { MapPin, RefreshCw, XCircle } from 'lucide-react'; // Mengimpor XCircle untuk status declined
+import { MapPin, RefreshCw, XCircle } from 'lucide-react';
 
-export default function ArchiveList({ candidates, onUnarchive }) {
+export default function ArchiveList({ candidates, onUnarchive, onViewDetails }) {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       <div className="py-2">
@@ -21,7 +21,11 @@ export default function ArchiveList({ candidates, onUnarchive }) {
             const displayLocation = candidate.metrics?.location || "Remote / Global";
 
             return (
-              <div key={candidate.id} className="bg-white border border-neutral-200/50 rounded-2xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm opacity-70 hover:opacity-90 transition-opacity">
+              <div 
+                key={candidate.id} 
+                onClick={() => onViewDetails?.(candidate)}
+                className="bg-white border border-neutral-200/50 rounded-2xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm opacity-75 hover:opacity-100 hover:shadow-md hover:border-neutral-300 hover:bg-neutral-50/20 cursor-pointer transition-all duration-300"
+              >
                 
                 {/* Info Profile: Foto & Nama */}
                 <div className="flex items-center gap-4 lg:w-[35%]">
@@ -60,7 +64,7 @@ export default function ArchiveList({ candidates, onUnarchive }) {
                 {/* Bagian Aksi Kanan: Tombol Unarchive */}
                 <div className="flex flex-row lg:flex-col gap-2.5 lg:w-[15%] w-full">
                   <button 
-                    onClick={() => onUnarchive(candidate.id)}
+                    onClick={(e) => { e.stopPropagation(); onUnarchive(candidate.id); }}
                     className="flex-1 bg-transparent hover:bg-neutral-50 text-neutral-700 border border-neutral-300 font-bold text-xs py-2.5 px-4 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 active:scale-[0.98]"
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-neutral-500" />

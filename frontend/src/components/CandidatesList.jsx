@@ -1,6 +1,6 @@
 import { MapPin, UserCheck, MessageSquare } from 'lucide-react';
 
-export default function CandidatesList({ candidates, onContact, onDecline }) {
+export default function CandidatesList({ candidates, onContact, onDecline, onViewDetails }) {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       <div className="py-2">
@@ -23,7 +23,8 @@ export default function CandidatesList({ candidates, onContact, onDecline }) {
             return (
               <div 
                 key={candidate.id} 
-                className={`bg-white border border-neutral-200/50 rounded-2xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm border-l-4 ${
+                onClick={() => onViewDetails?.(candidate)}
+                className={`bg-white border border-neutral-200/50 rounded-2xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm border-l-4 hover:shadow-md hover:border-neutral-300 hover:bg-neutral-50/20 cursor-pointer transition-all duration-300 ${
                   candidate.statusText === 'Contacted' ? 'border-l-emerald-500' : 'border-l-amber-500'
                 }`}
               >
@@ -75,19 +76,19 @@ export default function CandidatesList({ candidates, onContact, onDecline }) {
                 {/* Tombol Aksi Kanan: Contact & Decline */}
                 <div className="flex flex-row lg:flex-col gap-2 lg:w-[15%] w-full">
                   <button 
-                    onClick={() => onContact(candidate.id)}
+                    onClick={(e) => { e.stopPropagation(); onContact(candidate.id); }}
                     disabled={candidate.statusText === 'Contacted'}
-                    className={`flex-1 font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98] ${
+                    className={`flex-1 font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] ${
                       candidate.statusText === 'Contacted'
                         ? 'bg-neutral-100 text-neutral-400 border border-neutral-200 shadow-none cursor-not-allowed opacity-60'
-                        : 'bg-olive-dark hover:bg-olive-dark/90 text-white'
+                        : 'bg-olive-dark hover:bg-olive-dark/90 text-white cursor-pointer'
                     }`}
                   >
                     <MessageSquare className="w-3.5 h-3.5" />
                     Contact
                   </button>
                   <button 
-                    onClick={() => onDecline(candidate.id)}
+                    onClick={(e) => { e.stopPropagation(); onDecline(candidate.id); }}
                     className="flex-1 bg-transparent hover:bg-neutral-50 text-neutral-700 border border-neutral-300 font-bold text-xs py-2.5 px-4 rounded-xl transition-all cursor-pointer flex items-center justify-center active:scale-[0.98]"
                   >
                     Decline

@@ -12,7 +12,7 @@ import {
   Percent // Icon baru untuk matching score
 } from 'lucide-react';
 
-export default function SearchCandidates({ candidates, onAccept, onDecline }) {
+export default function SearchCandidates({ candidates, onAccept, onDecline, onViewDetails }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCandidates, setFilteredCandidates] = useState(candidates);
   
@@ -261,7 +261,8 @@ export default function SearchCandidates({ candidates, onAccept, onDecline }) {
             return (
               <div
                 key={id}
-                className="bg-white border border-neutral-200/50 rounded-2xl shadow-sm hover:shadow-md hover:border-olive-dark/30 transition-all duration-300 overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between p-6 gap-6"
+                onClick={() => onViewDetails?.(candidate)}
+                className="bg-white border border-neutral-200/50 rounded-2xl shadow-sm hover:shadow-md hover:border-olive-dark/30 hover:bg-neutral-50/20 cursor-pointer transition-all duration-300 overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between p-6 gap-6"
               >
                 {/* Left Part: Foto & Nama */}
                 <div className="flex items-center gap-4 lg:w-[25%]">
@@ -315,13 +316,13 @@ export default function SearchCandidates({ candidates, onAccept, onDecline }) {
                 {/* Right Part: Tombol Aksi */}
                 <div className="flex flex-row lg:flex-col gap-2.5 lg:w-[15%] w-full">
                   <button 
-                    onClick={() => onAccept(id)}
+                    onClick={(e) => { e.stopPropagation(); onAccept(id); }}
                     className="flex-1 bg-olive-dark hover:bg-olive-dark/90 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md shadow-olive-dark/10 hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 active:scale-[0.98]"
                   >
                     Accept
                   </button>
                   <button 
-                    onClick={() => onDecline(id)}
+                    onClick={(e) => { e.stopPropagation(); onDecline(id); }}
                     className="flex-1 bg-transparent hover:bg-neutral-50 text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-bold text-xs py-2.5 px-4 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 active:scale-[0.98]"
                   >
                     Decline
