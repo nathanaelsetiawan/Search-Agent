@@ -40,10 +40,10 @@ export default function Header({ activeMenu, setActiveMenu }) {
         {/* User Avatar */}
         <button className="flex items-center gap-3 py-1.5 px-2 rounded-xl hover:bg-neutral-50 transition-all duration-200 cursor-pointer">
           <div className="w-9 h-9 rounded-full bg-olive-dark flex items-center justify-center text-white text-sm font-bold shadow-md shadow-olive-dark/20">
-            N
+            U
           </div>
           <div className="text-left hidden sm:block">
-            <p className="text-sm font-semibold text-neutral-900 leading-tight">Nathan</p>
+            <p className="text-sm font-semibold text-neutral-900 leading-tight">User</p>
             <p className="text-[11px] text-neutral-400 leading-tight">Admin</p>
           </div>
         </button>

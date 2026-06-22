@@ -2,7 +2,7 @@ import { MapPin, UserCheck, MessageSquare } from 'lucide-react';
 
 export default function CandidatesList({ candidates, onContact, onDecline, onViewDetails }) {
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto animate-fade-in">
       <div className="py-2">
         <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
           Accepted Candidates

@@ -1,1 +1,10 @@
-Ini adalah projek search agent yang sangat uhuy, jadi nantikan saja programnya ya kawan
+Frontend:
+npm run dev
+http://localhost:5173/
+
+Backend:
+npm run dev
+http://localhost:3001/
+
+Frontend: React
+Backend: Express

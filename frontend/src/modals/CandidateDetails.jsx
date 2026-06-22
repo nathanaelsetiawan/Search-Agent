@@ -61,10 +61,10 @@ export default function CandidateDetailModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-overlay-fade-in">
       {/* Modal Container */}
       <div 
-        className="relative bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-neutral-200/60 flex flex-col md:flex-row max-h-[90vh] overflow-hidden transform scale-100 transition-all duration-300"
+        className="relative bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-neutral-200/60 flex flex-col md:flex-row max-h-[90vh] overflow-hidden animate-modal-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}

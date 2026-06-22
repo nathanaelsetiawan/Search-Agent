@@ -1,8 +1,8 @@
 import { MapPin, RefreshCw, XCircle } from 'lucide-react';
 
-export default function ArchiveList({ candidates, onUnarchive, onViewDetails }) {
+export default function ArchivePage({ candidates, onUnarchive, onViewDetails }) {
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto animate-fade-in">
       <div className="py-2">
         <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
           Archived Talents
