@@ -167,7 +167,6 @@ export default function CandidateDetailModal({
                     className="hover:text-olive-dark underline transition-colors truncate"
                     title={linkedinUrl}
                   >
-                    {/* {linkedinUrl.replace('https://www.', '').replace('https://', '')} */}
                     {candidate.linkedinUrl ? candidate.linkedinUrl.replace(/^https?:\/\/(?:[a-z]{2}\.)?/, "") : "linkedin.com/in/"}
                   </a>
                 ) : (
