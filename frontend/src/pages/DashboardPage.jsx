@@ -116,20 +116,13 @@ export default function DashboardOverview({ allCandidates, onMenuChange }) {
               {recentShortlisted.length > 0 ? (
                 recentShortlisted.map((candidate) => (
                   <div key={candidate.id} className="flex items-center justify-between py-4 group">
-                    <div className="flex items-center gap-4">
-                      <img 
-                        src={candidate.avatar} 
-                        alt={candidate.name} 
-                        className="w-11 h-11 rounded-full object-cover border border-neutral-200"
-                      />
-                      <div>
-                        <h4 className="text-sm font-bold text-neutral-800 group-hover:text-neutral-900 transition-colors">
-                          {candidate.name}
-                        </h4>
-                        <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mt-0.5">
-                          {candidate.role}
-                        </p>
-                      </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-neutral-800 group-hover:text-neutral-900 transition-colors">
+                        {candidate.name}
+                      </h4>
+                      <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mt-0.5">
+                        {candidate.role}
+                      </p>
                     </div>
                     <div className="text-right">
                       <span className="inline-block bg-neutral-50 border border-neutral-200/60 text-neutral-600 text-[11px] font-medium px-2.5 py-1 rounded-lg">

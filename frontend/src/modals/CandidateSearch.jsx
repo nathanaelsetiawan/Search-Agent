@@ -26,7 +26,7 @@ export default function SearchModal({
             </div>
             <div>
               <h4 className="text-base font-bold text-neutral-950 tracking-tight">AI Deep Search Engine</h4>
-              <p className="text-xs text-neutral-400 mt-0.5">Trigger agent workflows via n8n integration.</p>
+              <p className="text-xs text-neutral-400 mt-0.5">Trigger agent workflows.</p>
             </div>
           </div>
           <button 

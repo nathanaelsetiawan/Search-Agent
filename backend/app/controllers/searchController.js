@@ -1,24 +1,21 @@
 import axios from 'axios';
 
-/**
- * POST /search
- * Menerima search criteria dari FE, meneruskannya ke n8n webhook,
- * lalu mengembalikan response n8n langsung ke FE.
- */
 export const searchCandidates = async (req, res) => {
   const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL;
+  const payload = req.body;
+
+  console.log('[Search] Request criteria received:', payload);
 
   if (!n8nWebhookUrl) {
     console.error('[Search] N8N_WEBHOOK_URL tidak dikonfigurasi di .env');
     return res.status(500).json({ error: 'N8N_WEBHOOK_URL belum dikonfigurasi di server.' });
   }
 
-  const payload = req.body;
-  console.log('[Search] Meneruskan request ke n8n:', payload);
-
   try {
+    console.log('[Search] Meneruskan request ke n8n:', n8nWebhookUrl);
     const n8nResponse = await axios.post(n8nWebhookUrl, payload, {
       headers: { 'Content-Type': 'application/json' },
+      timeout: 300000,
     });
 
     console.log('[Search] Response dari n8n diterima. Status:', n8nResponse.status);

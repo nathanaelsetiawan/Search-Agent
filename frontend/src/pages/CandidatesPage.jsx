@@ -29,15 +29,8 @@ export default function CandidatesList({ candidates, onContact, onDecline, onVie
                 }`}
               >
                 
-                {/* Info Kandidat: Foto & Nama */}
+                {/* Info Kandidat: Nama */}
                 <div className="flex items-center gap-4 lg:w-[35%]">
-                  <div className="relative flex-shrink-0">
-                    <img 
-                        src={candidate.avatar} 
-                        alt={candidate.name} 
-                        className="w-16 h-16 rounded-xl object-cover border border-neutral-200/40" 
-                    />
-                  </div>
                   <div>
                     <h4 className="text-base font-bold text-neutral-900">{candidate.name}</h4>
                   </div>

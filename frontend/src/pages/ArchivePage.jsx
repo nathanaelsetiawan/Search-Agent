@@ -27,9 +27,8 @@ export default function ArchivePage({ candidates, onUnarchive, onViewDetails }) 
                 className="bg-white border border-neutral-200/50 rounded-2xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm opacity-75 hover:opacity-100 hover:shadow-md hover:border-neutral-300 hover:bg-neutral-50/20 cursor-pointer transition-all duration-300"
               >
                 
-                {/* Info Profile: Foto & Nama */}
+                {/* Info Profile: Nama */}
                 <div className="flex items-center gap-4 lg:w-[35%]">
-                  <img src={candidate.avatar} alt={candidate.name} className="w-16 h-16 rounded-xl object-cover grayscale border border-neutral-200/40" />
                   <div>
                     <h4 className="text-base font-bold text-neutral-500 line-through">{candidate.name}</h4>
                   </div>

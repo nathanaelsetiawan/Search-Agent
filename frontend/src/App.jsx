@@ -9,7 +9,7 @@ import DashboardOverview from './pages/DashboardPage';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
 
-// Helper function to normalize candidate structures returned from n8n webhook
+// Function to normalize candidate structures
 function normalizeCandidates(data) {
   let rawList = [];
   if (Array.isArray(data)) {
@@ -32,27 +32,52 @@ function normalizeCandidates(data) {
   return rawList.map((c, index) => {
     const id = c.id || `candidate_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 5)}`;
     const metrics = c.metrics || {};
-    const specialization = c.skills || metrics.specialization || c.role || "General Software Engineering";
-    const location = c.location || metrics.location || "Remote / Global";
+    const name = c.name || c.nama || "";
+    const rawExp = c.experienceHistory || c.experience_history || c.experience || [];
+    const experienceHistory = Array.isArray(rawExp) ? rawExp.map(exp => ({
+      role: exp.role || exp.posisi || "",
+      company: exp.company || exp.perusahaan || "",
+      duration: exp.duration || (exp.mulai && exp.selesai ? `${exp.mulai} - ${exp.selesai}` : ""),
+      description: exp.description || exp.lokasi || ""
+    })) : [];
+    const role = c.role || c.posisi || (experienceHistory[0] && experienceHistory[0].role) || "";
+    
+    let skillsString = "";
+    if (typeof c.skills === 'string' && c.skills.trim()) {
+      skillsString = c.skills;
+    } else if (Array.isArray(c.skills) && c.skills.length > 0) {
+      skillsString = c.skills.join(', ');
+    }
+    const specialization = skillsString || metrics.specialization || role || "";
+    const location = c.location || c.lokasi || metrics.location || "";
     const matchingScore = c.matchingScore || metrics.matchingScore || 0;
+    const linkedinUrl = c.linkedinUrl || c.url_linkedin || c.linkedin_url || "";
+    const rawEdu = c.educationHistory || c.education_history || c.pendidikan || [];
+    const educationHistory = Array.isArray(rawEdu) ? rawEdu.map(edu => ({
+      degree: edu.degree || edu.gelar || "",
+      institution: edu.institution || edu.institusi || "",
+      year: edu.year || (edu.mulai && edu.selesai ? `${edu.mulai} - ${edu.selesai}` : ""),
+      field: edu.field || edu.bidang || ""
+    })) : [];
 
     return {
       id,
-      name: c.name || "Unknown Candidate",
-      role: c.role || "Professional",
+      name,
+      role,
       pool: c.pool || "search",
       statusText: c.statusText || "Action Needed",
       skills: specialization,
       matchingScore,
       metrics: {
-        status: metrics.status || c.status || "Actively Looking",
-        exitMultiplier: metrics.exitMultiplier || c.exitMultiplier || "N/A",
+        status: metrics.status || c.status || "",
+        exitMultiplier: metrics.exitMultiplier || c.exitMultiplier || "",
         specialization,
         location,
         matchingScore,
       },
-      experienceHistory: c.experienceHistory || c.experience_history || [],
-      educationHistory: c.educationHistory || c.education_history || []
+      experienceHistory,
+      educationHistory,
+      linkedinUrl
     };
   });
 }

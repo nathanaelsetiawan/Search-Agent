@@ -27,7 +27,7 @@ export default function CandidateDetailModal({
 }) {
   if (!candidate) return null;
 
-  const { id, name, role, avatar, metrics, salaryRange, experience, pool, statusText } = candidate;
+  const { id, name, role, metrics, salaryRange, experience, pool, statusText, linkedinUrl } = candidate;
 
   const displaySkills = candidate.skills || metrics?.specialization || "General Software Engineering";
   const displayLocation = metrics?.location || "Remote / Global";
@@ -78,21 +78,14 @@ export default function CandidateDetailModal({
         {/* Left Column: Profile Card */}
         <div className="w-full md:w-1/3 bg-neutral-50/50 border-r border-neutral-100 p-6 flex flex-col justify-between overflow-y-auto">
           <div>
-            {/* Avatar */}
+            {/* Match Score Badge */}
             <div className="flex justify-center mb-5 mt-2">
-              <div className="relative">
-                <img 
-                  src={avatar} 
-                  alt={name} 
-                  className="w-24 h-24 md:w-28 md:h-28 rounded-2xl object-cover grayscale contrast-110 brightness-95 border-2 border-white shadow-md"
-                />
-                {displayScore > 0 && (
-                  <span className="absolute -bottom-2 -right-2 bg-olive-dark text-white text-xs font-bold px-2 py-0.5 rounded-lg border border-white shadow-sm flex items-center gap-0.5">
-                    <Sparkles className="w-3 h-3 text-amber-300" />
-                    {displayScore}%
-                  </span>
-                )}
-              </div>
+              {displayScore > 0 && (
+                <span className="bg-olive-dark text-white text-xs font-bold px-3 py-1 rounded-lg flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-amber-300" />
+                  {displayScore}% Match
+                </span>
+              )}
             </div>
 
             {/* Profile Info */}
@@ -162,19 +155,24 @@ export default function CandidateDetailModal({
 
             <hr className="border-neutral-200/60 my-5" />
 
-            {/* Direct Contact Mock Info */}
+            {/* Contact Info */}
             <div className="space-y-2.5 text-xs text-neutral-500">
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                <span className="truncate">{name.toLowerCase().replace(' ', '.')}@talentai-eval.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                <span>+1 (555) 234-8971</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Globe className="w-3.5 h-3.5 text-neutral-400" />
-                <a href="#" className="hover:text-olive-dark underline transition-colors">linkedin.com/in/{name.toLowerCase().replace(' ', '')}</a>
+                <Globe className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                {linkedinUrl ? (
+                  <a 
+                    href={linkedinUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-olive-dark underline transition-colors truncate"
+                    title={linkedinUrl}
+                  >
+                    {/* {linkedinUrl.replace('https://www.', '').replace('https://', '')} */}
+                    {candidate.linkedinUrl ? candidate.linkedinUrl.replace(/^https?:\/\/(?:[a-z]{2}\.)?/, "") : "linkedin.com/in/"}
+                  </a>
+                ) : (
+                  <span className="text-neutral-300 italic">LinkedIn URL tidak tersedia</span>
+                )}
               </div>
             </div>
           </div>

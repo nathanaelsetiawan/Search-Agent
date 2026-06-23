@@ -144,7 +144,7 @@ export default function SearchCandidates({ candidates, onAccept, onDecline, onVi
       <div className="space-y-4">
         {filteredCandidates.length > 0 ? (
           filteredCandidates.map((candidate) => {
-            const { id, name, avatar, metrics, skills, matchingScore } = candidate;
+            const { id, name, metrics, skills, matchingScore } = candidate;
             const displaySkills = skills || metrics?.specialization || "General Software Engineering";
             const displayLocation = metrics?.location || "Remote / Global";
             const displayScore = matchingScore || metrics?.matchingScore || 0; 
@@ -157,7 +157,6 @@ export default function SearchCandidates({ candidates, onAccept, onDecline, onVi
               >
                 {/* Left Part */}
                 <div className="flex items-center gap-4 lg:w-[25%]">
-                  <img src={`${avatar}`} alt={`${name}`} className="w-16 h-16 rounded-xl object-cover grayscale contrast-125 brightness-95 border border-neutral-200/40" />
                   <div className="min-w-0">
                     <h4 className="text-base font-bold text-neutral-900 truncate tracking-tight">{`${name}`}</h4>
                   </div>
