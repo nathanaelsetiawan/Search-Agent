@@ -4,12 +4,8 @@ import {
   Briefcase, 
   GraduationCap, 
   DollarSign, 
-  Calendar, 
   Sparkles, 
-  Mail, 
-  Phone, 
-  Globe, 
-  Award,
+  Globe,
   Clock,
   UserCheck,
   MessageSquare,
@@ -31,10 +27,28 @@ export default function CandidateDetailModal({
 
   const displaySkills = candidate.skills || metrics?.specialization || "General Software Engineering";
   const displayLocation = metrics?.location || "Remote / Global";
-  const displayScore = candidate.matchingScore || metrics?.matchingScore || 0;
+
+  // Normalize matchingScore: n8n may return 0-100 (int) or 0.0-1.0 (float)
+  const rawScore = candidate.matchScore ?? candidate.matchingScore ?? candidate.match_score ?? metrics?.matchScore ?? metrics?.matchingScore ?? metrics?.match_score ?? 0;
+  const displayScore = rawScore > 0 && rawScore <= 1 ? Math.round(rawScore * 100) : Math.round(rawScore);
+
+  // Score breakdown from n8n (if provided)
+  const scoreBreakdown = candidate.scoreBreakdown || candidate.score_breakdown || metrics?.scoreBreakdown || null;
+
+  // Score color coding
+  const scoreBadgeClass = displayScore >= 75
+    ? 'bg-emerald-600 text-white'
+    : displayScore >= 50
+    ? 'bg-olive-dark text-white'
+    : 'bg-amber-500 text-white';
 
   // Fallback data for experience history
-  const experienceHistory = candidate.experienceHistory || [
+  // Note: old cached data used 'duration', new normalized data uses 'period'
+  const rawExpHistory = candidate.experienceHistory || [];
+  const experienceHistory = rawExpHistory.length > 0 ? rawExpHistory.map(exp => ({
+    ...exp,
+    period: exp.period || exp.duration || "",
+  })) : [
     {
       role: role || "Executive Professional",
       company: "Current Corporation",
@@ -44,7 +58,12 @@ export default function CandidateDetailModal({
   ];
 
   // Fallback data for education history
-  const educationHistory = candidate.educationHistory || [
+  // Note: old cached data used 'year', new normalized data uses 'period'
+  const rawEduHistory = candidate.educationHistory || [];
+  const educationHistory = rawEduHistory.length > 0 ? rawEduHistory.map(edu => ({
+    ...edu,
+    period: edu.period || edu.year || "",
+  })) : [
     {
       degree: "Higher Degree / Certification",
       institution: "Prestigious Institute",
@@ -56,7 +75,7 @@ export default function CandidateDetailModal({
   const handleAction = (actionFn) => {
     if (actionFn) {
       actionFn(id);
-      onClose(); // Close modal after taking action
+      onClose();
     }
   };
 
@@ -79,12 +98,37 @@ export default function CandidateDetailModal({
         <div className="w-full md:w-1/3 bg-neutral-50/50 border-r border-neutral-100 p-6 flex flex-col justify-between overflow-y-auto">
           <div>
             {/* Match Score Badge */}
-            <div className="flex justify-center mb-5 mt-2">
+            <div className="flex flex-col items-center mb-5 mt-2 gap-2">
               {displayScore > 0 && (
-                <span className="bg-olive-dark text-white text-xs font-bold px-3 py-1 rounded-lg flex items-center gap-1">
+                <span className={`text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm ${scoreBadgeClass}`}>
                   <Sparkles className="w-3 h-3 text-amber-300" />
                   {displayScore}% Match
                 </span>
+              )}
+              {/* Score Breakdown (if n8n returns per-criteria scores) */}
+              {scoreBreakdown && typeof scoreBreakdown === 'object' && (
+                <div className="w-full space-y-1.5 mt-1">
+                  {Object.entries(scoreBreakdown).map(([key, val]) => {
+                    const pct = val > 1 ? Math.round(val) : Math.round(val * 100);
+                    const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    return (
+                      <div key={key} className="w-full">
+                        <div className="flex justify-between text-[10px] font-semibold text-neutral-500 mb-0.5">
+                          <span>{label}</span>
+                          <span>{pct}%</span>
+                        </div>
+                        <div className="h-1 bg-neutral-100 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all ${
+                              pct >= 75 ? 'bg-emerald-500' : pct >= 50 ? 'bg-olive-dark' : 'bg-amber-400'
+                            }`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               )}
             </div>
 
@@ -233,6 +277,30 @@ export default function CandidateDetailModal({
 
         {/* Right Column: Work Experience Timeline & Education */}
         <div className="flex-1 p-6 md:p-8 overflow-y-auto space-y-8 max-h-[50vh] md:max-h-none">
+          {/* About / AI Evaluation */}
+          {(candidate.about || candidate.reason) && (
+            <div className="bg-olive-dark/[0.04] border border-olive-dark/10 p-5 rounded-2xl space-y-4">
+              {candidate.about && (
+                <div>
+                  <h4 className="text-xs font-bold text-olive-dark uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-olive-dark" />
+                    About Candidate
+                  </h4>
+                  <p className="text-xs text-neutral-600 leading-relaxed whitespace-pre-line">{candidate.about}</p>
+                </div>
+              )}
+              {candidate.reason && (
+                <div className={candidate.about ? "pt-4 border-t border-neutral-200/50" : ""}>
+                  <h4 className="text-xs font-bold text-olive-dark uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-olive-dark" />
+                    AI Search Recommendation / Reason
+                  </h4>
+                  <p className="text-xs text-neutral-600 leading-relaxed whitespace-pre-line">{candidate.reason}</p>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Work Experience */}
           <div>
             <h4 className="text-sm font-bold text-neutral-900 uppercase tracking-wider mb-4 flex items-center gap-2">

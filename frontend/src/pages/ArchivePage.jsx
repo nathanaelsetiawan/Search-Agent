@@ -19,6 +19,8 @@ export default function ArchivePage({ candidates, onUnarchive, onViewDetails }) 
             // Mengambil fallback deskripsi keahlian jika properti .skills belum didefinisikan dari integrasi n8n
             const displaySkills = candidate.skills || candidate.metrics?.specialization || "General Software Engineering";
             const displayLocation = candidate.metrics?.location || "Remote / Global";
+            const rawScore = candidate.matchScore ?? candidate.matchingScore ?? candidate.match_score ?? candidate.metrics?.matchingScore ?? 0;
+            const displayScore = rawScore > 0 && rawScore <= 1 ? Math.round(rawScore * 100) : Math.round(rawScore);
 
             return (
               <div 
@@ -28,14 +30,14 @@ export default function ArchivePage({ candidates, onUnarchive, onViewDetails }) 
               >
                 
                 {/* Info Profile: Nama */}
-                <div className="flex items-center gap-4 lg:w-[35%]">
+                <div className="flex items-center gap-4 lg:w-[25%]">
                   <div>
                     <h4 className="text-base font-bold text-neutral-500 line-through">{candidate.name}</h4>
                   </div>
                 </div>
 
                 {/* Metrik Tengah: Menggunakan Border Abu-abu (border-neutral-100), Menampilkan Skills & Location */}
-                <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 flex-1 lg:border-x lg:border-neutral-100 lg:px-8 py-4 lg:py-0 border-t lg:border-t-0 border-neutral-100">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 flex-1 lg:border-l lg:border-neutral-100 lg:pl-8 py-4 lg:py-0 border-t lg:border-t-0 border-neutral-100">
                   <div className="space-y-0.5 col-span-2 sm:col-span-1">
                     <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Skills</p>
                     <p className="text-xs font-semibold text-neutral-600 truncate" title={displaySkills}>
@@ -51,8 +53,16 @@ export default function ArchivePage({ candidates, onUnarchive, onViewDetails }) 
                   </div>
                 </div>
 
+                {/* Match Score */}
+                <div className="flex flex-col items-start lg:items-center justify-center lg:w-[12%] lg:border-l lg:border-neutral-100 lg:pl-4">
+                  <p className="text-[10px] font-bold text-neutral-400 uppercase mb-1 hidden lg:block">Match Score</p>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-olive-dark/5 text-olive-dark border border-olive-dark/10 rounded-lg text-xs font-bold">
+                    {displayScore}%
+                  </span>
+                </div>
+
                 {/* Badges Status Keterangan: 'Declined' */}
-                <div className="flex flex-col items-start lg:items-center justify-center lg:w-[15%]">
+                <div className="flex flex-col items-start lg:items-center justify-center lg:w-[12%]">
                   <p className="text-[10px] font-bold text-neutral-400 uppercase mb-1 hidden lg:block">Status</p>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-700 border border-red-200 rounded-lg text-xs font-bold">
                     <XCircle className="w-3.5 h-3.5 text-red-500" />

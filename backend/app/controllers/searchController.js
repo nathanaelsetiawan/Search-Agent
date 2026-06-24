@@ -19,7 +19,22 @@ export const searchCandidates = async (req, res) => {
     });
 
     console.log('[Search] Response dari n8n diterima. Status:', n8nResponse.status);
-    return res.status(200).json(n8nResponse.data);
+
+    // Log structure for debugging field mapping
+    const responseData = n8nResponse.data;
+    const sampleCandidate = Array.isArray(responseData)
+      ? (Array.isArray(responseData[0]?.candidates) ? responseData[0].candidates[0] : responseData[0])
+      : (responseData?.candidates?.[0] || responseData?.results?.[0] || responseData);
+    if (sampleCandidate && typeof sampleCandidate === 'object') {
+      console.log('[Search] Sample candidate fields from n8n:', JSON.stringify(Object.keys(sampleCandidate)));
+      console.log('[Search] matchingScore fields:', {
+        matchingScore: sampleCandidate.matchingScore,
+        match_score: sampleCandidate.match_score,
+        metrics_matchingScore: sampleCandidate.metrics?.matchingScore,
+      });
+    }
+
+    return res.status(200).json(responseData);
   } catch (error) {
     console.error('[Search] Gagal menghubungi n8n:', error.message);
     return res.status(502).json({

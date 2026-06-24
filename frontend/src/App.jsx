@@ -37,7 +37,8 @@ function normalizeCandidates(data) {
     const experienceHistory = Array.isArray(rawExp) ? rawExp.map(exp => ({
       role: exp.role || exp.posisi || "",
       company: exp.company || exp.perusahaan || "",
-      duration: exp.duration || (exp.mulai && exp.selesai ? `${exp.mulai} - ${exp.selesai}` : ""),
+      // 'period' is the field read by CandidateDetails.jsx
+      period: exp.period || exp.duration || (exp.mulai && exp.selesai ? `${exp.mulai} - ${exp.selesai}` : ""),
       description: exp.description || exp.lokasi || ""
     })) : [];
     const role = c.role || c.posisi || (experienceHistory[0] && experienceHistory[0].role) || "";
@@ -50,14 +51,17 @@ function normalizeCandidates(data) {
     }
     const specialization = skillsString || metrics.specialization || role || "";
     const location = c.location || c.lokasi || metrics.location || "";
-    const matchingScore = c.matchingScore || metrics.matchingScore || 0;
+    const rawScore = c.matchScore ?? c.matchingScore ?? c.match_score ?? metrics.matchingScore ?? metrics.match_score ?? 0;
+    const matchingScore = rawScore > 0 && rawScore <= 1 ? Math.round(rawScore * 100) : Math.round(rawScore);
     const linkedinUrl = c.linkedinUrl || c.url_linkedin || c.linkedin_url || "";
-    const rawEdu = c.educationHistory || c.education_history || c.pendidikan || [];
+    const rawEdu = c.education || c.educationHistory || c.education_history || c.pendidikan || [];
     const educationHistory = Array.isArray(rawEdu) ? rawEdu.map(edu => ({
       degree: edu.degree || edu.gelar || "",
       institution: edu.institution || edu.institusi || "",
-      year: edu.year || (edu.mulai && edu.selesai ? `${edu.mulai} - ${edu.selesai}` : ""),
-      field: edu.field || edu.bidang || ""
+      // 'period' is the field read by CandidateDetails.jsx
+      period: edu.period || edu.year || (edu.mulai && edu.selesai ? `${edu.mulai} - ${edu.selesai}` : ""),
+      field: edu.field || edu.bidang || "",
+      description: edu.description || edu.field || edu.keterangan || ""
     })) : [];
 
     return {
@@ -68,6 +72,9 @@ function normalizeCandidates(data) {
       statusText: c.statusText || "Action Needed",
       skills: specialization,
       matchingScore,
+      scoreBreakdown: c.scoreBreakdown || c.score_breakdown || metrics.scoreBreakdown || null,
+      about: c.about || "",
+      reason: c.reason || "",
       metrics: {
         status: metrics.status || c.status || "",
         exitMultiplier: metrics.exitMultiplier || c.exitMultiplier || "",
