@@ -132,7 +132,7 @@ export default function SearchCandidates({ candidates, onAccept, onDecline, onVi
       {/* Title & Total Info */}
       <div className="py-2">
         <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
-          AI Search Results
+          Search Results
           <span className="text-xs font-medium text-olive-dark bg-olive-dark/10 px-2 py-0.5 rounded-full border border-olive-dark/20">
             {filteredCandidates.length} Candidate{filteredCandidates.length !== 1 ? 's' : ''} Found
           </span>
@@ -156,9 +156,19 @@ export default function SearchCandidates({ candidates, onAccept, onDecline, onVi
                 className="bg-white border border-neutral-200/50 rounded-2xl shadow-sm hover:shadow-md hover:border-olive-dark/30 hover:bg-neutral-50/20 cursor-pointer transition-all duration-300 overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between p-6 gap-6"
               >
                 {/* Left Part */}
-                <div className="flex items-center gap-4 lg:w-[25%]">
-                  <div className="min-w-0">
-                    <h4 className="text-base font-bold text-neutral-900 truncate tracking-tight">{`${name}`}</h4>
+                <div className="flex items-center gap-3.5 lg:w-[25%] min-w-0">
+                  {/* Avatar Bulat dengan Inisial */}
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-olive-dark/10 font-semibold text-olive-dark text-sm border border-olive-dark/20 uppercase">
+                    {candidate.name ? candidate.name.substring(0, 2) : "CN"}
+                  </div>
+
+                  {/* Detail Nama */}
+                  <div className="min-w-0 flex flex-col">
+                    <h4 className="text-sm lg:text-sm font-bold text-neutral-900 truncate tracking-tight hover:text-olive-dark transition-colors duration-200 cursor-default" title={name}>
+                      {name}
+                    </h4>
+                    {/* Subtitle Tambahan untuk Pelengkap (Opsional) */}
+                    <span className="text-[10px] text-neutral-400 font-medium tracking-wide uppercase">Candidate</span>
                   </div>
                 </div>
 

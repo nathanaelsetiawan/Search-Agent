@@ -2,7 +2,7 @@ import {
   LayoutDashboard,
   Users,
   Search,
-  Crown,
+  Compass,
   Archive,
 } from 'lucide-react';
 
@@ -17,16 +17,21 @@ export default function Sidebar({ activeMenu, onMenuChange }) {
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[260px] bg-neutral-50 border-r border-neutral-200/60 flex flex-col z-50">
       {/* Logo */}
-      <div className="px-6 py-6 border-b border-neutral-200/40">
+      <div className="px-6 py-5 border-b border-neutral-200/50">
         <div className="flex items-center gap-3">
-          {/* Logo Background */}
-          <div className="w-9 h-9 rounded-lg bg-olive-dark flex items-center justify-center shadow-md shadow-olive-dark/10">
-            <Crown className="w-5 h-5 text-white" strokeWidth={2} />
+          {/* Logo Box Minimalis dengan Ikon Compass (Scout) */}
+          <div className="w-9 h-9 rounded-lg bg-olive-dark flex items-center justify-center shadow-sm shadow-olive-dark/10">
+            <Compass className="w-5 h-5 text-white" strokeWidth={2} />
           </div>
-          <div>
-            <h1 className="font-serif text-lg font-semibold text-neutral-900 leading-tight tracking-tight">
-              Talent AI
+
+          {/* Brand Typography */}
+          <div className="flex flex-col gap-0.5">
+            <h1 className="font-serif text-lg font-bold text-neutral-900 leading-none tracking-tight">
+              Scoutly
             </h1>
+            <p className="text-[12px] font-semibold text-neutral-400 tracking-wider">
+              Talent Intelligence
+            </p>
           </div>
         </div>
       </div>

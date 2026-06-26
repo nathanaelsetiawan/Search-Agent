@@ -154,14 +154,6 @@ export default function CandidateDetailModal({
             {/* Candidate Details */}
             <div className="space-y-4">
               <div>
-                <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Salary Expectation</p>
-                <p className="text-xs font-bold text-neutral-700 mt-0.5 flex items-center gap-0.5">
-                  <DollarSign className="w-3.5 h-3.5 text-neutral-400" />
-                  {salaryRange || "Confidential"}
-                </p>
-              </div>
-
-              <div>
                 <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Specialization</p>
                 <p className="text-xs font-semibold text-neutral-700 mt-0.5">
                   {displaySkills}
@@ -286,7 +278,7 @@ export default function CandidateDetailModal({
                     <Sparkles className="w-3.5 h-3.5 text-olive-dark" />
                     About Candidate
                   </h4>
-                  <p className="text-xs text-neutral-600 leading-relaxed whitespace-pre-line">{candidate.about}</p>
+                  <p className="text-xs text-neutral-600 leading-relaxed whitespace-pre-line text-justify">{candidate.about}</p>
                 </div>
               )}
               {candidate.reason && (
@@ -295,7 +287,7 @@ export default function CandidateDetailModal({
                     <Sparkles className="w-3.5 h-3.5 text-olive-dark" />
                     AI Search Recommendation / Reason
                   </h4>
-                  <p className="text-xs text-neutral-600 leading-relaxed whitespace-pre-line">{candidate.reason}</p>
+                  <p className="text-xs text-neutral-600 leading-relaxed whitespace-pre-line text-justify">{candidate.reason}</p>
                 </div>
               )}
             </div>

@@ -34,7 +34,7 @@ export default function DashboardOverview({ allCandidates, onMenuChange }) {
             <div className="inline-flex items-center gap-2 border border-[#C9A84C]/40 bg-[#C9A84C]/[0.1] rounded-full px-3 py-1 mb-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#4ade80] animate-pulse flex-shrink-0" />
                 <span className="text-[11px] font-extrabold tracking-widest uppercase text-[#E5C158]">
-                System Active &nbsp;·&nbsp; Talent AI
+                System Active &nbsp;·&nbsp; Scoutly
                 </span>
             </div>
           <h2 className="text-2xl font-extrabold tracking-tight mt-3 mb-2">Welcome Back.</h2>
