@@ -25,7 +25,7 @@ export default function SearchModal({
               <Sparkles className="w-4 h-4 fill-olive-dark/20" />
             </div>
             <div>
-              <h4 className="text-base font-bold text-neutral-950 tracking-tight">AI Deep Search Engine</h4>
+              <h4 className="text-base font-bold text-neutral-950 tracking-tight">AI Search Engine</h4>
               <p className="text-xs text-neutral-400 mt-0.5">Trigger agent workflows.</p>
             </div>
           </div>
@@ -42,7 +42,9 @@ export default function SearchModal({
         <div className="flex-1 overflow-y-auto p-6 space-y-5">
           
           <div>
-            <label className="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Target Role</label>
+            <label className="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
+              Role <span className='text-red-500'>*</span>
+            </label>
             <input 
               type="text" 
               name="role"
@@ -54,9 +56,12 @@ export default function SearchModal({
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Job Description</label>
+            <label className="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
+              Job Description <span className='text-red-500'>*</span>
+            </label>
             <textarea 
               name="jobDescription"
+              required
               value={formData.jobDescription}
               onChange={onChangeInput}
               rows={3}
@@ -76,7 +81,7 @@ export default function SearchModal({
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Preferred Location</label>
+            <label className="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Location</label>
             <input 
               type="text" 
               name="location"
